@@ -9,6 +9,7 @@ public class GUI implements ActionListener {
     char rettning; // TODO finish
     JButton opp, ned, hoyre, venstre, slutt;
     JLabel[][] bokser = new JLabel[12][12]; 
+    ArrayList<JLabel> slangen = new ArrayList<>();
 
     GUI() {
         try {
@@ -92,6 +93,7 @@ public class GUI implements ActionListener {
         hovedPanel.add(spill);
         hovedPanel.add(tittelPanel);
         hovedVindu.setVisible(true);
+        startpos();
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -100,6 +102,7 @@ public class GUI implements ActionListener {
         }
         else if(e.getSource() == opp){
             System.out.println("du trakk opp");
+            startpos();
         }
         else if(e.getSource() == ned){
             System.out.println("du trakk ned");
@@ -113,7 +116,30 @@ public class GUI implements ActionListener {
     }
 
     public void startpos(){
-        JLabel start = bokser[6][6];
-        //start.setText(text);
+        JLabel hode = bokser[6][6];
+        JLabel hale = bokser[6][7];
+        JLabel kropp = bokser[6][8];
+        hode.setText(":");
+        hode.setHorizontalAlignment(JLabel.CENTER);
+        hode.setVerticalAlignment(JLabel.CENTER);
+        hode.setForeground(Color.green);
+        hode.setFont(new Font("Serif", Font.PLAIN, 40));
+        slangen.add(hode);
+
+        hale.setText("-");
+        hale.setHorizontalAlignment(JLabel.CENTER);
+        hale.setVerticalAlignment(JLabel.CENTER);
+        hale.setForeground(Color.green);
+        hale.setFont(new Font("Serif", Font.PLAIN, 40));
+        slangen.add(kropp);
+
+
+        kropp.setText("*");
+        kropp.setHorizontalAlignment(JLabel.CENTER);
+        kropp.setVerticalAlignment(JLabel.CENTER);
+        kropp.setForeground(Color.green);
+        kropp.setFont(new Font("Serif", Font.PLAIN, 40));
+        slangen.add(hale);
+
     }
 }
