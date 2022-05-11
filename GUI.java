@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+
+import javax.lang.model.element.Element;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -8,7 +10,7 @@ public class GUI implements ActionListener {
     JPanel hovedPanel, oppePanel, verdenPanel, tittelPanel, tomPanel, spill; // TODO
     char rettning; // TODO finish
     JButton opp, ned, hoyre, venstre, slutt;
-    JLabel[][] bokser = new JLabel[12][12]; 
+    JLabel[][] bokser = new JLabel[12][12];
     ArrayList<JLabel> slangen = new ArrayList<>();
 
     GUI() {
@@ -34,7 +36,7 @@ public class GUI implements ActionListener {
         tittelPanel.setSize(500, 30);
         tittelPanel.setBounds(100, 5, 500, 30);
         // tittelPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-        //tittelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        // tittelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         JLabel testTest = new JLabel("Snake");
         testTest.setHorizontalAlignment(JLabel.CENTER);
         testTest.setVerticalAlignment(JLabel.CENTER);
@@ -43,7 +45,7 @@ public class GUI implements ActionListener {
         oppePanel = new JPanel();
         oppePanel.setBounds(50, 40, 600, 200);
         oppePanel.setSize(600, 200);
-        oppePanel.setLayout(new GridLayout(0,2));
+        oppePanel.setLayout(new GridLayout(0, 2));
         oppePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         oppePanel.setBackground(Color.gray);
 
@@ -70,20 +72,19 @@ public class GUI implements ActionListener {
         venstre.addActionListener(this);
         slutt.addActionListener(this);
 
-
         oppePanel.add(knapper);
-        
+
         spill = new JPanel();
         spill.setSize(700, 495);
         spill.setBounds(65, 240, 570, 570);
-        spill.setLayout(new GridLayout(12,12));
+        spill.setLayout(new GridLayout(12, 12));
         spill.setBackground(Color.gray);
         spill.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-        for (int y = 1; y <=12; y++) {
+        for (int y = 1; y <= 12; y++) {
             for (int x = 1; x <= 12; x++) {
                 JLabel box = new JLabel(" ");
                 box.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                bokser[y-1][x-1] = box;
+                bokser[y - 1][x - 1] = box;
                 spill.add(box);
             }
         }
@@ -95,27 +96,24 @@ public class GUI implements ActionListener {
         hovedVindu.setVisible(true);
         startpos();
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == slutt){
+        if (e.getSource() == slutt) {
             System.exit(0);
-        }
-        else if(e.getSource() == opp){
+        } else if (e.getSource() == opp) {
             System.out.println("du trakk opp");
             startpos();
-        }
-        else if(e.getSource() == ned){
+        } else if (e.getSource() == ned) {
             System.out.println("du trakk ned");
-        }
-        else if(e.getSource() == hoyre){
+        } else if (e.getSource() == hoyre) {
             System.out.println("du trakk hoyre");
-        }
-        else if(e.getSource() == venstre){
+        } else if (e.getSource() == venstre) {
             System.out.println("du trakk venstre");
         }
     }
 
-    public void startpos(){
+    public void startpos() {
         JLabel hode = bokser[6][6];
         JLabel hale = bokser[6][7];
         JLabel kropp = bokser[6][8];
@@ -133,8 +131,7 @@ public class GUI implements ActionListener {
         hale.setFont(new Font("Serif", Font.PLAIN, 40));
         slangen.add(kropp);
 
-
-        kropp.setText("*");
+        kropp.setText("-");
         kropp.setHorizontalAlignment(JLabel.CENTER);
         kropp.setVerticalAlignment(JLabel.CENTER);
         kropp.setForeground(Color.green);
@@ -142,4 +139,42 @@ public class GUI implements ActionListener {
         slangen.add(hale);
 
     }
+
+    public void leggTilEple(int y, int x) {
+        JLabel gjeldende = bokser[y][x];
+        gjeldende.setText("+");
+        gjeldende.setHorizontalAlignment(JLabel.CENTER);
+        gjeldende.setForeground(Color.red);
+        gjeldende.setFont(new Font("Serif", Font.PLAIN, 40));
+    }
+
+    public boolean erEpleEllerslange(int y, int x) {
+        String rute = bokser[y][x].getText();
+        if (rute.equals(":")) {
+            return true;
+        } else if (rute.equals("-")) {
+            return true;
+        } else if (rute.equals("*")) {
+            return true;
+        } else if (rute.equals("+")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void leggTilSlange(int y, int x) {
+        JLabel gjeldende = bokser[y][x];
+        gjeldende.setText("-");
+        gjeldende.setHorizontalAlignment(JLabel.CENTER);
+        gjeldende.setForeground(Color.green);
+        gjeldende.setFont(new Font("Serif", Font.PLAIN, 40));
+    }
+
+    public void fjernSlange(int y, int x) {
+        JLabel gjeldende = bokser[y][x];
+        gjeldende.setText(" ");
+
+    }
+
 }
