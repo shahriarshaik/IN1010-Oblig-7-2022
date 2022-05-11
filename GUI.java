@@ -119,11 +119,11 @@ public class GUI implements ActionListener {
 
     public void startpos() {
         JLabel hode = bokser[6][6];
-        JLabel hale = bokser[6][7];
-        JLabel kropp = bokser[6][8];
+        JLabel kropp = bokser[6][7];
+        JLabel hale = bokser[6][8];
         slangen.add(hode);
-        slangen.add(hale);
         slangen.add(kropp);
+        slangen.add(hale);
         hode.setText(":");
         hode.setHorizontalAlignment(JLabel.CENTER);
         hode.setVerticalAlignment(JLabel.CENTER);
@@ -172,6 +172,7 @@ public class GUI implements ActionListener {
 
     public void leggTilSlange(int y, int x) {
         JLabel gjeldende = bokser[y][x];
+        slangen.add(0, gjeldende);
         gjeldende.setText("-");
         gjeldende.setHorizontalAlignment(JLabel.CENTER);
         gjeldende.setForeground(Color.green);
@@ -181,7 +182,10 @@ public class GUI implements ActionListener {
     public void fjernSlange(int y, int x) {
         JLabel gjeldende = bokser[y][x];
         gjeldende.setText(" ");
-
+        try {
+            slangen.remove(gjeldende);
+        } catch (Exception e) {
+        }
     }
 
 }
