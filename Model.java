@@ -4,9 +4,13 @@ import java.util.ArrayList;
 public class Model {
     GUI gui;
     randomtall rand = new randomtall(0, 11);
+    ArrayList<JLabel> slangen;
+    int rettning;
 
     public Model(GUI gui) {
         this.gui = gui;
+        slangen = gui.slangen;
+        rettning = gui.rettning;
     }
 
     public void spreEpler() {
@@ -18,6 +22,18 @@ public class Model {
                 y = rand.tall();
             }
             gui.leggTilEple(y, x);
+        }
+    }
+
+    public void bevegelse() {
+        if (rettning == 8) { // retning opp
+
+        } else if (rettning == 2) { // retning ned
+
+        } else if (rettning == 6) { // retning høyre
+
+        } else if (rettning == 4) { // retning venstre
+
         }
     }
 

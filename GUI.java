@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GUI implements ActionListener {
     JFrame hovedVindu;
     JPanel hovedPanel, oppePanel, verdenPanel, tittelPanel, tomPanel, spill; // TODO
-    char rettning; // TODO finish
+    int rettning = 4;
     JButton opp, ned, hoyre, venstre, slutt;
     JLabel[][] bokser = new JLabel[12][12];
     ArrayList<JLabel> slangen = new ArrayList<>();
@@ -102,13 +102,17 @@ public class GUI implements ActionListener {
         if (e.getSource() == slutt) {
             System.exit(0);
         } else if (e.getSource() == opp) {
+            rettning = 8;
             System.out.println("du trakk opp");
             startpos();
         } else if (e.getSource() == ned) {
+            rettning = 2;
             System.out.println("du trakk ned");
         } else if (e.getSource() == hoyre) {
+            rettning = 6;
             System.out.println("du trakk hoyre");
         } else if (e.getSource() == venstre) {
+            rettning = 4;
             System.out.println("du trakk venstre");
         }
     }
@@ -117,6 +121,9 @@ public class GUI implements ActionListener {
         JLabel hode = bokser[6][6];
         JLabel hale = bokser[6][7];
         JLabel kropp = bokser[6][8];
+        slangen.add(hode);
+        slangen.add(hale);
+        slangen.add(kropp);
         hode.setText(":");
         hode.setHorizontalAlignment(JLabel.CENTER);
         hode.setVerticalAlignment(JLabel.CENTER);
