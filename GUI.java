@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.lang.model.element.Element;
+import javax.lang.model.util.ElementScanner14;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ public class GUI implements ActionListener {
     int rettning = 4;
     JButton opp, ned, hoyre, venstre, slutt;
     JLabel[][] bokser = new JLabel[12][12];
+    JLabel lengde; 
     ArrayList<JLabel> slangen = new ArrayList<>();
 
     GUI() {
@@ -49,7 +50,7 @@ public class GUI implements ActionListener {
         oppePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         oppePanel.setBackground(Color.gray);
 
-        JLabel lengde = new JLabel("Lengde: 1");
+        lengde = new JLabel("Lengde: 1");
         lengde.setHorizontalAlignment(JLabel.CENTER);
         oppePanel.add(lengde);
 
@@ -101,19 +102,18 @@ public class GUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == slutt) {
             System.exit(0);
-        } else if (e.getSource() == opp) {
+        } else if (e.getSource() == opp && rettning != 2) {
             rettning = 8;
-            System.out.println("du trakk opp");
-            startpos();
-        } else if (e.getSource() == ned) {
+            System.out.println(rettning);
+        } else if (e.getSource() == ned && rettning != 8) {
             rettning = 2;
-            System.out.println("du trakk ned");
-        } else if (e.getSource() == hoyre) {
+            System.out.println(rettning);
+        } else if (e.getSource() == hoyre && rettning != 4) {
             rettning = 6;
-            System.out.println("du trakk hoyre");
-        } else if (e.getSource() == venstre) {
+            System.out.println(rettning);
+        } else if (e.getSource() == venstre && rettning != 6) {
             rettning = 4;
-            System.out.println("du trakk venstre");
+            System.out.println(rettning);
         }
     }
 
@@ -129,21 +129,21 @@ public class GUI implements ActionListener {
         hode.setVerticalAlignment(JLabel.CENTER);
         hode.setForeground(Color.green);
         hode.setFont(new Font("Serif", Font.PLAIN, 40));
-        slangen.add(hode);
+        //slangen.add(hode);
 
         hale.setText("-");
         hale.setHorizontalAlignment(JLabel.CENTER);
         hale.setVerticalAlignment(JLabel.CENTER);
         hale.setForeground(Color.green);
         hale.setFont(new Font("Serif", Font.PLAIN, 40));
-        slangen.add(kropp);
+        //slangen.add(kropp);
 
         kropp.setText("-");
         kropp.setHorizontalAlignment(JLabel.CENTER);
         kropp.setVerticalAlignment(JLabel.CENTER);
         kropp.setForeground(Color.green);
         kropp.setFont(new Font("Serif", Font.PLAIN, 40));
-        slangen.add(hale);
+        //slangen.add(hale);
 
     }
 
@@ -170,6 +170,89 @@ public class GUI implements ActionListener {
         }
     }
 
+    public boolean erNesteEple(int y, int x, int dir) {
+        try {
+            if(dir == 8){
+                if(bokser[y-1][x].getText().equals("+")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(dir == 2){
+                if(bokser[y+1][x].getText().equals("+")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(dir == 6){
+                if(bokser[y][x+1].getText().equals("+")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(dir == 4){
+                if(bokser[y][x-1].getText().equals("+")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else{
+                return false; 
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    /*
+    public boolean erNesteEple(int y, int x, int dir) {
+        if(dir == 8){
+            return bokser[y-1][x].getText().equals("$");
+        } else if(dir == 2){
+            return bokser[y+1][x].getText().equals("$");
+        } else if(dir == 6){
+            return bokser[y][x+1].getText().equals("$");
+        } else if(dir == 2){
+            return bokser[y][x-1].getText().equals("$");
+        }
+        else{ return false;}
+    }
+    */
+
+    public boolean erNesteSlange(int y, int x, int dir) {
+        try {
+            if(dir == 8){
+                if(bokser[y-1][x].getText().equals("-")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(dir == 2){
+                if(bokser[y+1][x].getText().equals("-")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(dir == 6){
+                if(bokser[y][x+1].getText().equals("-")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(dir == 4){
+                if(bokser[y][x-1].getText().equals("-")){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else{
+                return false; 
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
     public void leggTilSlange(int y, int x) {
         JLabel gjeldende = bokser[y][x];
         slangen.add(0, gjeldende);
@@ -177,15 +260,14 @@ public class GUI implements ActionListener {
         gjeldende.setHorizontalAlignment(JLabel.CENTER);
         gjeldende.setForeground(Color.green);
         gjeldende.setFont(new Font("Serif", Font.PLAIN, 40));
+        System.out.println("("+ x + ", " + y + ")");
     }
 
     public void fjernSlange(int y, int x) {
         JLabel gjeldende = bokser[y][x];
+        System.out.println("fjerner: " + gjeldende.getText());
         gjeldende.setText(" ");
-        try {
-            slangen.remove(gjeldende);
-        } catch (Exception e) {
-        }
+        slangen.remove(gjeldende);
     }
 
 }
